@@ -6,14 +6,19 @@
 #define WAYBIGWORK_FINDWAY_H
 
 #include "Graph.h"
+#include <utility>
+
+using namespace std;
 
 class ShortestWayFinder {
 
-
 public:
-    virtual void getShortestWay(node* a, node* b) = 0;
+    virtual way getShortestWay(node *a, node *b) = 0;
 
-private:
+    ShortestWayFinder(Graph *graph) : graph(graph) {}
+
+    typedef pair<list<node *>, int> way;
+protected:
     Graph* graph;
 
 
