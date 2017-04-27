@@ -9,31 +9,54 @@ using namespace std;
 #include <map>
 #include <vector>
 #include <list>
+#include <iostream>
 
 // вершина
-template <class T>
-struct node {
-    T *data;
 
-    node(T *data) : data(data) {}
+struct node {
+    int id;
+
+    node(int id) : id(id) {}
 };
 
-template <class T>
+
 struct edge {
-    node<T> *pointA;
-    node<T> *pointB;
+    node *pointA;
+    node *pointB;
     int length;
 
-    edge(node<T> *pointA, node<T> *pointB, int length) : pointA(pointA), pointB(pointB), length(length) {}
+    edge(node *pointA, node *pointB, int length) : pointA(pointA), pointB(pointB), length(length) {}
 };
 
-template <class T>
+
 class Graph {
-    typedef node<T>* Node;
-    typedef edge<T>* Edge;
+    typedef node *Node;
+    typedef edge *Edge;
 
     vector<Node> nodes;
-    map<Node, list<Edge>> adjacencyList;
+    vector<list<Edge>> adjacencyList;
+    int numberOfNodes;
+
+    Graph(std::istream &in) {
+        in >> numberOfNodes;
+        adjacencyList = vector(numberOfNodes);
+
+        for (int i = 0; i < numberOfNodes; ++i) {
+            node *n = new node(i);
+            nodes.push_back(n);
+        }
+
+        for (int j = 0; j < numberOfNodes; ++j) {
+            int number;
+            in >> number;
+            for (int i = 0; i < number; ++i) {
+                int pointBId, length;
+                in >> pointBId >> length;
+                edge *e = new edge(nodes[j], nodes[pointBId], length);
+                adjacencyList[j].push_back(e);
+            }
+        }
+    }
 
 
 };
